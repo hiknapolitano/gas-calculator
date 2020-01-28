@@ -1,27 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, View, TextInput, StatusBar } from 'react-native';
+import { StyleSheet, Text, View, TextInput } from 'react-native';
 import Style from './Style';
+import NumericInput from '@wwdrew/react-native-numeric-textinput';
 
 export default function App() {
 
-
-  const [gasValue, setGasValue] = useState("000");
-  const [ethValue, setEthValue] = useState("000");
-
-  function gasValueChanged(){
-
-  }
-
-  function ethValueChanged(){
-
-  }
-
-  function formatValue(val){
-    return `R$ ${parseFloat(val)/100}`
-  }
-
-
-
+  const [gasValue, setGasValue] = useState("0.00");
+  const [ethValue, setEthValue] = useState("0.00");
 
   return ( 
   <>
@@ -29,10 +14,23 @@ export default function App() {
     <View style={styles.containerAll}>
       <View style={styles.container}>
         <Text style={styles.mainText}>Preço da gasolina:</Text>
-        <TextInput style={styles.input} backgroundColor="black" onChange={gasValueChanged}>{gasValue}</TextInput>
+        <NumericInput style={styles.input}  
+          type='decimal'
+          decimalPlaces={2}
+          value={gasValue}
+          onUpdate={(value) => setGasValue(value)}
+
+          />
         <Text style={styles.mainText}>Preço do etanol:</Text>
-        <TextInput style={styles.input} backgroundColor="black" onChange={ethValueChanged}>{ethValue}</TextInput>
-        <Text style={styles.answerText}>Nesse caso, o etanol está compensando!</Text>
+        <NumericInput style={styles.input}  
+          type='decimal'
+          decimalPlaces={2}
+          value={ethValue}
+          onUpdate={(value) => setEthValue(value)}
+
+          />
+        <Text style={styles.answerText}> {parseFloat(ethValue)  <
+           (70/100 * parseFloat(gasValue)) ? "Está compensando o etanol!" : "A gasolina está compensando!"} </Text>
 
       </View>
     </View>
@@ -54,9 +52,13 @@ const styles = StyleSheet.create({
   },
   input: {
     color: "white",
-    padding: 20,
+    borderColor: "black",
+    borderWidth: 2,
+    paddingHorizontal: 15,
+    paddingVertical: 8,
     borderRadius: 10,
-    fontSize: 26
+    fontSize: 26,
+    color: "#000"
   },
   mainText: {
     color: "#000",
