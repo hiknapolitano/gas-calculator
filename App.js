@@ -1,74 +1,106 @@
 import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, View, TextInput } from 'react-native';
-import Style from './Style';
-import NumericInput from '@wwdrew/react-native-numeric-textinput';
+import './GlobalStyles';
+import { TextInputMask } from 'react-native-masked-text'
+import GlobalStyles from './GlobalStyles';
 
 export default function App() {
 
-  const [gasValue, setGasValue] = useState("0.00");
-  const [ethValue, setEthValue] = useState("0.00");
+  const [gasValue, setGasValue] = useState(0);
+  const [ethValue, setEthValue] = useState(0);
 
+  function calculateAnswer(){
+    
+  }
   return ( 
   <>
     {/* <StatusBar barStyle="dark-content" backgroundColor="#330066" /> */}
-    <View style={styles.containerAll}>
       <View style={styles.container}>
+      <View style={styles.bothPricesContainer} >
+      <View style={styles.block}>
         <Text style={styles.mainText}>Preço da gasolina:</Text>
-        <NumericInput style={styles.input}  
-          type='decimal'
-          decimalPlaces={2}
+        <TextInputMask
+          style={styles.input}
+          maxLength={7}
+          type={'money'}
           value={gasValue}
-          onUpdate={(value) => setGasValue(value)}
+          includeRawValueInChangeText={true}
+          onChangeText={(text, rawText) => {
+            setGasValue(rawText);
+          }}/>
+       </View>
 
-          />
+       <View style={styles.block}>
         <Text style={styles.mainText}>Preço do etanol:</Text>
-        <NumericInput style={styles.input}  
-          type='decimal'
-          decimalPlaces={2}
+        <TextInputMask
+          style={styles.input}
+          maxLength={7}
+          type={'money'}
           value={ethValue}
-          onUpdate={(value) => setEthValue(value)}
+          includeRawValueInChangeText={true}
+          onChangeText={(text, rawText) => {
+            setEthValue(rawText);
+          }}/>
+       </View>
+       </View>
 
-          />
-        <Text style={styles.answerText}> {parseFloat(ethValue)  <
-           (70/100 * parseFloat(gasValue)) ? "Está compensando o etanol!" : "A gasolina está compensando!"} </Text>
+        <Text style={styles.answerText}> {ethValue  <
+           (70/100 * gasValue) ? "Está compensando o etanol!" : "A gasolina está compensando!"} </Text>
 
       </View>
-    </View>
   </>
   );
 }
 
 const styles = StyleSheet.create({
-  containerAll: {
+
+    block: {
+      margin: 20,
+    },
+    bothPricesContainer: {
+      margin: 0, 
+    },
+    container: {
+    paddingTop: 60,
+    justifyContent: "center",
+
     flex: 1,
-    backgroundColor: '#111',
-    justifyContent: "flex-end"
-  },
-  container: {
-    flex: 0.9,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignContent: "center",
+    backgroundColor: GlobalStyles.colors.oldBlue,
+
   },
   input: {
-    color: "white",
-    borderColor: "black",
-    borderWidth: 2,
-    paddingHorizontal: 15,
-    paddingVertical: 8,
-    borderRadius: 10,
-    fontSize: 26,
-    color: "#000"
+    margin: 20,
+    alignSelf: "stretch",
+    justifyContent: "center",
+    textAlign: "center",
+    backgroundColor: GlobalStyles.colors.offWhite,
+    borderWidth: 4,
+    borderRadius: 50,
+    height: 90,
+    borderColor: GlobalStyles.colors.almostClear,
+    fontSize: 42,
+    color: GlobalStyles.colors.oldGray
   },
   mainText: {
-    color: "#000",
-    padding: 10,
-    fontSize: 30
+    color: GlobalStyles.colors.oldGray,
+    fontSize: 34,
+    alignSelf: "center",
+    fontFamily: "monospace",
+    textShadowColor: GlobalStyles.colors.lightGray,
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10,
   },
   answerText: {
-    fontSize: 30,
-    color: "red",
-    padding: 40,
+    textShadowColor: 'rgba(0, 30, 0, 1)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10,
+    margin: 20,
+    fontSize: 44,
+    fontFamily: "monospace",
+    fontWeight: "bold",
+    color: GlobalStyles.colors.green,
+    justifyContent: "center",
     textAlign: "center"
   }
 });
