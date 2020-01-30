@@ -22,7 +22,10 @@ export default function App() {
           <View style={styles.block}>
                 <Text style={styles.mainText}>Preço da gasolina:</Text>
                 <TextInputMask
-                  style={[styles.input, gasValue > 0 && ethValue > 0 && ethValue < (70/100 * gasValue) ? styles.badOption : styles.betterOption]}
+                  style={[styles.input, gasValue > 0 || ethValue > 0 ? 
+                    ethValue < (70/100 * gasValue) ?  
+                      styles.badOption : styles.betterOption
+                      :styles.input]}
                   maxLength={7}
                   type={'money'}
                   value={gasValue}
@@ -35,7 +38,10 @@ export default function App() {
           <View style={styles.block}>
                 <Text style={styles.mainText}>Preço do etanol:</Text>
                 <TextInputMask
-                  style={[styles.input, gasValue > 0 && ethValue > 0 && ethValue >= (70/100 * gasValue) ? styles.badOption : styles.betterOption]}
+                  style={[styles.input, gasValue > 0 || ethValue > 0 ? 
+                    ethValue >= (70/100 * gasValue) ?  
+                      styles.badOption : styles.betterOption
+                      : styles.input]}
                   maxLength={7}
                   type={'money'}
                   value={ethValue}
@@ -109,7 +115,7 @@ const styles = StyleSheet.create({
     height: 70,
     borderColor: GlobalStyles.colors.almostClear,
     fontSize: 32,
-    color: GlobalStyles.colors.yellow,
+    color: GlobalStyles.colors.red,
     textShadowColor: GlobalStyles.colors.offRed,
     textShadowOffset: {width: -1, height: 1},
     textShadowRadius: 10,
@@ -118,12 +124,16 @@ const styles = StyleSheet.create({
   },
 
   betterOption: {
-    color: GlobalStyles.colors.green,
+    backgroundColor: GlobalStyles.colors.green,
+    color: GlobalStyles.colors.offWhite,
+
 
   },
 
   badOption: {
-    color: GlobalStyles.colors.red,
+    color: GlobalStyles.colors.offWhite,
+    backgroundColor: GlobalStyles.colors.red,
+
 
   },
 
@@ -146,8 +156,8 @@ const styles = StyleSheet.create({
     textShadowColor: GlobalStyles.colors.oldGray,
     textShadowOffset: {width: -1, height: 1},
     textShadowRadius: 5,
-    fontSize: 28,
-    lineHeight: 30,
+    fontSize: 22,
+    lineHeight: 24,
     marginTop: 40,
     backgroundColor: GlobalStyles.colors.darkGray,
     fontFamily: "sans-serif",
